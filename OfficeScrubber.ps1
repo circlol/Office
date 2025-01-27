@@ -78,8 +78,8 @@ THIS TOOL WILL REMOVE EVERY VERSION OF OFFICE.`n     THIS IS THE ONLY CONFIRMATI
 
     # Cleans
     try { Write-Output "Cleaning up."
-        Remove-Item "$env:UserProfile\Downloads\SaRACmd_*.zip"
-        Remove-Item "$env:UserProfile\Downloads\SaRA" -Force
+        Remove-Item "$env:UserProfile\Downloads\SaRACmd.zip"
+        Remove-Item "$env:UserProfile\Downloads\SaRA" -Force -Recurse
     }
     catch { return "Error Cleaning up:`n$($Error[0])" }
     } else {
