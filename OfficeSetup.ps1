@@ -218,7 +218,7 @@ function Start-Activation {
     switch ($choice.ToUpper()) {
         'Y' {
             Write-Output "Starting activation with MAS(Microsoft Activation Scripts)"
-            Invoke-RestMethod -Uri get.activated.win | Invoke-Expression
+            Invoke-RestMethod https://get.activated.win | Invoke-Expression
         }
         'N' {
             Write-Output "Skipping MAS(Microsoft Activation Scripts)"
@@ -268,7 +268,7 @@ function Start-Download {
     Show-MainMenu
 }
 
-
+Clear-Host
 
 # Start the script
 Show-MainMenu
