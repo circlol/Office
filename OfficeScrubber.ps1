@@ -7,10 +7,10 @@ function Get-Admin {
 	If (!([bool]([Security.Principal.WindowsIdentity]::GetCurrent().Groups -match 'S-1-5-32-544'))) {
 		Write-Host "Restarting with administrative privileges" -ForegroundColor Yellow
 		If (Get-Command wt) {
-			Start-Process wt -verb runas -ArgumentList "powershell -command 'irm sara.newloads.ca | iex'" ; return
-		} else { Start-Process powershell -verb runas -ArgumentList "-command 'irm sara.newloads.ca | iex'" ; return}
+			Start-Process wt -verb runas -ArgumentList "powershell -command 'irm sara.newloads.ca | iex'" ; exit
+		} else { Start-Process powershell -verb runas -ArgumentList "-command 'irm sara.newloads.ca | iex'" ; exit}
 		Write-Output "Closing."
-		return
+		exit
 	}
 }
 function Get-Question {
@@ -60,13 +60,13 @@ THIS TOOL WILL REMOVE EVERY VERSION OF OFFICE.`n     THIS IS THE ONLY CONFIRMATI
     If ($answer -eq $True) {
         # Downloads
         try { Write-Output "Downloading SaRA."
-        Invoke-WebRequest https://aka.ms/SaRA_EnterpriseVersionFiles -OutFile "$env:UserProfile\Downloads" 
+        Invoke-WebRequest https://aka.ms/SaRA_EnterpriseVersionFiles -OutFile "$env:UserProfile\Downloads\SaraCmd.zip" 
     }
     catch { return "Error downloading SaRA:`n$($Error[0])" }
     
     # Extracts
     try { Write-Output "Extracting files."
-        Expand-Archive -Path "$env:UserProfile\Downloads\SaRACmd_*.zip" -DestinationPath "$env:UserProfile\Downloads\SaRA" -Force
+        Expand-Archive -Path "$env:UserProfile\Downloads\SaRACmd.zip" -DestinationPath "$env:UserProfile\Downloads\SaRA" -Force
     }
     catch { return "Error expanding SaRA:`n$($Error[0])" }
 
