@@ -60,26 +60,26 @@ THIS TOOL WILL REMOVE EVERY VERSION OF OFFICE.`n     THIS IS THE ONLY CONFIRMATI
     If ($answer -eq $True) {
         # Downloads
         try { Write-Output "Downloading SaRA."
-        Invoke-WebRequest https://aka.ms/SaRA_EnterpriseVersionFiles -OutFile $env:temp 
+        Invoke-WebRequest https://aka.ms/SaRA_EnterpriseVersionFiles -OutFile "$env:UserProfile\Downloads" 
     }
     catch { return "Error downloading SaRA:`n$($Error[0])" }
     
     # Extracts
     try { Write-Output "Extracting files."
-        Expand-Archive -Path "$env:temp\SaRACmd_*.zip" -DestinationPath "$env:temp\SaRA" -Force
+        Expand-Archive -Path "$env:UserProfile\Downloads\SaRACmd_*.zip" -DestinationPath "$env:UserProfile\Downloads\SaRA" -Force
     }
     catch { return "Error expanding SaRA:`n$($Error[0])" }
 
     # Starts
     try { Write-Output "Starting SaRA."
-        Start-Process (Get-ChildItem "$env:temp\SaRA" -Include SaRAcmd.exe -Recurse).FullName -ArgumentList "-S OfficeScrubScenario -AcceptEula -OfficeVersion All" -Wait -NoNewWindow
+        Start-Process (Get-ChildItem "$env:UserProfile\Downloads\SaRA" -Include SaRAcmd.exe -Recurse).FullName -ArgumentList "-S OfficeScrubScenario -AcceptEula -OfficeVersion All" -Wait -NoNewWindow
     }
     catch { return "Error Starting SaRA:`n$($Error[0])" }
 
     # Cleans
     try { Write-Output "Cleaning up."
-        Remove-Item "$env:temp\SaRACmd_*.zip"
-        Remove-Item "$env:temp\SaRA" -Force
+        Remove-Item "$env:UserProfile\Downloads\SaRACmd_*.zip"
+        Remove-Item "$env:UserProfile\Downloads\SaRA" -Force
     }
     catch { return "Error Cleaning up:`n$($Error[0])" }
     } else {
