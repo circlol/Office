@@ -3,6 +3,16 @@ $ErrorActionPreference = [System.Management.Automation.ActionPreference]::Silent
 [Console]::Title = 'OfficeScrubber'
 [Console]::ForegroundColor = 'White'
 [Console]::BackgroundColor = 'Black'
+function Get-Admin {
+	If (!([bool]([Security.Principal.WindowsIdentity]::GetCurrent().Groups -match 'S-1-5-32-544'))) {
+		Write-Host "Restarting with administrative privileges" -ForegroundColor Yellow
+		If (Get-Command wt) {
+			Start-Process wt -verb runas -ArgumentList "powershell -command 'irm sara.newloads.ca | iex'" ; return
+		} else { Start-Process powershell -verb runas -ArgumentList "-command 'irm sara.newloads.ca | iex'" ; return}
+		Write-Output "Closing."
+		return
+	}
+}
 function Get-Question {
     $answer = Read-Host -Prompt "Would you like to run SaRA? (Y/N)"
     switch ($answer.ToUpper()) {
@@ -79,5 +89,5 @@ THIS TOOL WILL REMOVE EVERY VERSION OF OFFICE.`n     THIS IS THE ONLY CONFIRMATI
 }
 
 
-
+Get-Admin
 Remove-Office
